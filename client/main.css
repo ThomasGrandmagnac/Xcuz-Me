@@ -1,17 +1,22 @@
 [name=todoItem]{
     border:none;
-    font-family: "Times New Roman";
+    font-family: Arial, sans-serif;
     font-size: 100%;
     padding:0.15em;
 }
 
-a :hover {
-	background-color: #f9f9f9;
-	cursor:pointer;
+.checked{
+  background-color:#f0f0f0;
+  color:#666;
+  
 }
 
-a :focus {
-	background-color: #f9f9f9;
-	cursor:default;
-	outline:none;
+.checked [name=todoItem]{
+  text-decoration: line-through;
+}
+
+.checked [name=todoItem],
+.checked [name=todoItem]:hover,
+.checked [name=todoItem]:focus{
+    background-color:#f0f0f0;
 }

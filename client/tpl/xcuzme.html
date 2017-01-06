@@ -1,25 +1,27 @@
 <template name="todos">
     <ul>
-    {{#each todo}}
+        {{#each todo}}
         {{> todoItem}}
-    {{/each}}
+        {{/each}}
     </ul>
 </template>
 
 <template name="addTodo">
     <form>
-        Create a taskzerzer:
-        <input type="text" placeholder="Type a task here..." name="todoName">
+        <div class="mui-textfield mui-textfield--float-label">
+            <input type="text" name="todoName" class="mui--is-empty mui--is-dirty">
+            <label>Create a task</label>
+        </div>
     </form>
 </template>
 
 <template name="todoItem">
-    <li>
-        <button>Done!</button>
+    <li class="{{checked}}">
+        <button class="done mui-btn mui-btn--raised">Done!</button>
         <input type="text" value="{{name}}" name="todoItem">
         [<a href="#" class="delete-todo">Delete</a>]
-        <button class="plus">+ + +</button>
-        <button class="min">- - -</button>
+        <button class="plus mui-btn mui-btn--raised">+</button>
+        <button class="min mui-btn mui-btn--raised">-</button>
         <span>Like : {{note}}</span>
     </li>
 </template>

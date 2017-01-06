@@ -12,69 +12,83 @@ if(Meteor.isClient){
 }
 
 Template.todos.helpers({
-	'todo': function(){
-		/*return Todos.find();*/
-		return Todos.find({}, {sort: {createdAt: -1}});
-	}
+  'todo': function(){
+    return Todos.find({}, {sort: {createdAt: -1}});
+  }
 });
 
 Template.addTodo.events({
-	'submit form': function(event){
-		event.preventDefault();
-		var todoName = $('[name="todoName"]').val();
-		Todos.insert({
-			name: todoName,
-			note: 0,
-			completed: false,
-			createdAt: new Date()
-		});
-		$('[name="todoName"]').val('');
-	}
+  'submit form': function(event){
+    event.preventDefault();
+    var todoName = $('[name="todoName"]').val();
+    Todos.insert({
+      name: todoName,
+      note: 0,
+      completed: false,
+      createdAt: new Date()
+    });
+    $('[name="todoName"]').val('');
+  }
 });
 
 Template.todoItem.events({
-	'click button.plus': function(event) {
-		event.preventDefault();
-		Todos.update(this._id, {
-			$set: {note: this.note + 1}
-		});
-	},
-	
-	'click button.min': function(event) {
-		event.preventDefault();
-		Todos.update(this._id, {
-			$set: {note: this.note - 1}
-		});
-	},
+  'click button.plus': function(event) {
+    event.preventDefault();
+    Todos.update(this._id, {
+      $set: {note: this.note + 1}
+    });
+  },
+  
+  'click button.min': function(event) {
+    event.preventDefault();
+    Todos.update(this._id, {
+      $set: {note: this.note - 1}
+    });
+  },
 
-	'click .delete-todo': function(event){
-		event.preventDefault();
-		var documentId = this._id;
-		var confirm = window.confirm("Delete this task?");
-		if(confirm){
-			Todos.remove({ _id: documentId });
-		}
-	},
-
-	'keyup [name=todoItem]': function(event){
-    if(event.which == 13 || event.which == 27){
-        $(event.target).blur();
-    } else {
-        var documentId = this._id;
-        var todoItem = $(event.target).val();
-        Todos.update({ _id: documentId }, {$set: { name: todoItem }});
+  'click .delete-todo': function(event) {
+    event.preventDefault();
+    var documentId = this._id;
+    var confirm = window.confirm("Delete this task?");
+    if(confirm){
+      Todos.remove({ _id: documentId });
     }
-	},
+  },
 
-/*	'keydown [name=todoItem]': function(){
-    console.log("You're holding down a key on your keyboard.");
-	},
+  'keyup [name=todoItem]': function(event) {
+    if(event.which === 13) {
+      var documentId = this._id;
+      var todoItem = $(event.target).val();
+      Todos.update({ _id: documentId }, {$set: { name: todoItem }});
+      $(event.target).blur();
+    } else if (event.which === 27) {
+      prev_val = $(event.target).val();
+      Todos.update({ _id: documentId }, {$set: { name: prev_val }});
+      $(event.target).blur();
+    }
+  },
 
-	'keypress [name=todoItem]': function(){
-    console.log("You just pressed one of the keys on your keyboard.");
-	}*/
+  'click button.done': function() {
+    Todos.find().fetch();
+    var documentId = this._id;
+    var isCompleted = this.completed;
+    if(isCompleted){
+        Todos.update({ _id: documentId }, {$set: { completed: false }});
+        console.log("Task marked as incomplete.");
+    } else {
+        Todos.update({ _id: documentId }, {$set: { completed: true }});
+        console.log("Task marked as complete.");
+      }
+    }
+  });
 
-	'change [type=checkbox]': function(){
-    console.log("You checked or unchecked this checkbox");
-	}
+  Template.todoItem.helpers({
+    'checked': function(){
+      var isCompleted = this.completed;
+      if(isCompleted){
+          return "checked";
+      } else {
+          return "";
+      }
+    }
 });
