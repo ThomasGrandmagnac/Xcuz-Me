@@ -42,9 +42,12 @@ Template.todoItem.events({
 	},
 
 	'keyup [name=todoItem]': function(event){
+    var documentId = this._id;
     var todoItem = $(event.target).val();
-	},
-
+    Todos.update({ _id: documentId }, {$set: { name: todoItem }});
+    console.log("Task changed to: " + todoItem);
+  },
+  	
 	'keydown [name=todoItem]': function(){
     console.log("You're holding down a key on your keyboard.");
 	},
