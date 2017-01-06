@@ -1,27 +1,43 @@
 <template name="todos">
-    <ul>
-        {{#each todo}}
-        {{> todoItem}}
-        {{/each}}
-    </ul>
+    <div class="row">
+        {{#if currentUser }}
+        {{> addTodo}}
+        {{/if }}
+        <ul class="row">
+            {{#each todo}}
+            {{> todoItem}}
+            {{/each}}
+        </ul>
+    </div>
 </template>
 
 <template name="addTodo">
-    <form>
-        <div class="input-field">
-            <input type="text" name="todoName" class="inline">
-            <label>Create a task</label>
+    <form class="col s12">
+        <div class="input-field col s12">
+            <input type="text" name="todoName" class="validate" id="addatask">
+            <label for="addatask">Ajoutez une excuse ici...</label>
         </div>
     </form>
 </template>
 
 <template name="todoItem">
-    <li class="{{checked}}">
-        <button class="done waves-effect waves-light btn">Done!</button>
-        <input type="text" value="{{name}}" name="todoItem">
-        <button class="delete-todo waves-effect waves-light btn red">Delete</button>
-        <button class="plus waves-effect waves-light btn green">+</button>
-        <button class="min waves-effect waves-light btn red">-</button>
-        <span>Like : {{note}}</span>
+    <li class="{{checked}} col s6">
+        <div class="card">
+            <div class="card-content">
+                <input type="text" value="{{name}}" name="todoItem">
+            </div>
+            <div class="card-action">
+                {{#if activeUser }}
+                <button class="done waves-effect waves-light btn
+                {{#if checked}}red darken-4{{else}}blue darken-4{{/if}}"><i class="large material-icons">{{#if checked}}close{{else}}done{{/if}}
+                </i></button>
+                <a class="delete-todo waves-effect waves-light btn red"><i class="large material-icons">delete</i></a>
+                {{/if}}
+                <button type="button" class="plus waves-effect waves-light btn green darken-3"><i class="large material-icons">thumb_up</i></button>
+                <button type="button" class="min waves-effect waves-light btn red darken-3"><i class="large material-icons">thumb_down</i></button>
+                <button class="waves-effect waves-light btn blue">NOTE : {{ note }}</button>
+                <p class="text">Proposée par : <strong>{{ username }}</strong></p>
+            </div>
+        </div>
     </li>
 </template>

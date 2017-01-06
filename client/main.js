@@ -1,15 +1,35 @@
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-
+import {Accounts} from 'meteor/accounts-base';
 import './main.html';
 
-if(Meteor.isClient){
-    // client code goes here
-  }
 
-  if(Meteor.isServer){
-  // server code goes here
-}
+Accounts.ui.config({
+  passwordSignupFields: 'USERNAME_ONLY'
+});
+
+Template.todoItem.helpers({
+  'activeUser': function () {
+    if (Meteor.user() !== null) {
+      if (Meteor.user().username == this.username) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+});
+
+Template.todoItem.helpers({
+  'activeUser': function () {
+    if (Meteor.user() !== null) {
+      if (Meteor.user().username == this.username) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+});
 
 Template.todos.helpers({
   'todo': function(){
@@ -20,14 +40,18 @@ Template.todos.helpers({
 Template.addTodo.events({
   'submit form': function(event){
     event.preventDefault();
-    var todoName = $('[name="todoName"]').val();
+    let todo = $('[name="todoName"]');
+    let todoName = todo.val();
     Todos.insert({
       name: todoName,
       note: 0,
       completed: false,
-      createdAt: new Date()
+      createdAt: new Date(),
+      owner: Meteor.userId(),
+      username: Meteor.user().username
     });
-    $('[name="todoName"]').val('');
+    todo.val('');
+    todo.blur();
   }
 });
 
@@ -46,13 +70,10 @@ Template.todoItem.events({
     });
   },
 
-  'click .delete-todo': function(event) {
+  'click .delete-todo': function (event) {
     event.preventDefault();
-    var documentId = this._id;
-    var confirm = window.confirm("Delete this task?");
-    if(confirm){
-      Todos.remove({ _id: documentId });
-    }
+    let documentId = this._id;
+    Todos.remove({_id: documentId})
   },
 
   'click [name=todoItem]': function(event){
@@ -71,16 +92,19 @@ Template.todoItem.events({
     }
   },
 
+  'focusout [name=todoItem]': function(event) {
+      $(event.target).val(prev_val);
+      $(event.target).blur();
+  },
+
   'click button.done': function() {
     Todos.find().fetch();
     var documentId = this._id;
     var isCompleted = this.completed;
     if(isCompleted){
         Todos.update({ _id: documentId }, {$set: { completed: false }});
-        console.log("Task marked as incomplete.");
     } else {
         Todos.update({ _id: documentId }, {$set: { completed: true }});
-        console.log("Task marked as complete.");
       }
     }
   });
@@ -93,5 +117,5 @@ Template.todoItem.events({
       } else {
           return "";
       }
-      }
-});
+    }
+  });

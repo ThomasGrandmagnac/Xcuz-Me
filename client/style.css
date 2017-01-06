@@ -8,7 +8,6 @@
 .checked{
   background-color:#f0f0f0;
   color:#666;
-  text-overflow: ;
 }
 
 .checked [name=todoItem]{
@@ -19,11 +18,6 @@
 .checked [name=todoItem]:hover,
 .checked [name=todoItem]:focus{
   background-color:#f0f0f0;
-}
-
-input[type=text] {
-	width: 30% !important;
-	background:white;
 }
 
 li {
