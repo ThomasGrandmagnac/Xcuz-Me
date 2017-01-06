@@ -43,7 +43,7 @@ Template.todoItem.events({
 
 	'keyup [name=todoItem]': function(event){
     if(event.which == 13 || event.which == 27){
-        console.log("You tapped the Return or Escape key");
+        $(event.target).blur();
     } else {
         var documentId = this._id;
         var todoItem = $(event.target).val();
