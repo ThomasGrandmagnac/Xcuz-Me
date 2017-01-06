@@ -55,6 +55,10 @@ Template.todoItem.events({
     }
   },
 
+  'click [name=todoItem]': function(event){
+    prev_val = $(event.target).val();
+  },
+
   'keyup [name=todoItem]': function(event) {
     if(event.which === 13) {
       var documentId = this._id;
@@ -62,8 +66,7 @@ Template.todoItem.events({
       Todos.update({ _id: documentId }, {$set: { name: todoItem }});
       $(event.target).blur();
     } else if (event.which === 27) {
-      prev_val = $(event.target).val();
-      Todos.update({ _id: documentId }, {$set: { name: prev_val }});
+      $(event.target).val(prev_val);
       $(event.target).blur();
     }
   },
@@ -90,5 +93,5 @@ Template.todoItem.events({
       } else {
           return "";
       }
-    }
+      }
 });

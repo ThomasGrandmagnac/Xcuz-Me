@@ -8,8 +8,8 @@
 
 <template name="addTodo">
     <form>
-        <div class="mui-textfield mui-textfield--float-label">
-            <input type="text" name="todoName" class="mui--is-empty mui--is-dirty">
+        <div class="input-field">
+            <input type="text" name="todoName" class="inline">
             <label>Create a task</label>
         </div>
     </form>
@@ -17,11 +17,11 @@
 
 <template name="todoItem">
     <li class="{{checked}}">
-        <button class="done mui-btn mui-btn--raised">Done!</button>
+        <button class="done waves-effect waves-light btn">Done!</button>
         <input type="text" value="{{name}}" name="todoItem">
-        [<a href="#" class="delete-todo">Delete</a>]
-        <button class="plus mui-btn mui-btn--raised">+</button>
-        <button class="min mui-btn mui-btn--raised">-</button>
+        <button class="delete-todo waves-effect waves-light btn red">Delete</button>
+        <button class="plus waves-effect waves-light btn green">+</button>
+        <button class="min waves-effect waves-light btn red">-</button>
         <span>Like : {{note}}</span>
     </li>
 </template>
