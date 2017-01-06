@@ -8,14 +8,18 @@
 
 <template name="addTodo">
     <form>
-        Create a task:
+        Create a taskzerzer:
         <input type="text" placeholder="Type a task here..." name="todoName">
     </form>
 </template>
 
 <template name="todoItem">
     <li>
+        <button>Done!</button>
         <input type="text" value="{{name}}" name="todoItem">
         [<a href="#" class="delete-todo">Delete</a>]
+        <button class="plus">+ + +</button>
+        <button class="min">- - -</button>
+        <span>Like : {{note}}</span>
     </li>
 </template>

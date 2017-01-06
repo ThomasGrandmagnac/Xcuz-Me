@@ -24,6 +24,7 @@ Template.addTodo.events({
 		var todoName = $('[name="todoName"]').val();
 		Todos.insert({
 			name: todoName,
+			note: 0,
 			completed: false,
 			createdAt: new Date()
 		});
@@ -32,6 +33,20 @@ Template.addTodo.events({
 });
 
 Template.todoItem.events({
+	'click button.plus': function(event) {
+		event.preventDefault();
+		Todos.update(this._id, {
+			$set: {note: this.note + 1}
+		});
+	},
+	
+	'click button.min': function(event) {
+		event.preventDefault();
+		Todos.update(this._id, {
+			$set: {note: this.note - 1}
+		});
+	},
+
 	'click .delete-todo': function(event){
 		event.preventDefault();
 		var documentId = this._id;
@@ -49,7 +64,7 @@ Template.todoItem.events({
         var todoItem = $(event.target).val();
         Todos.update({ _id: documentId }, {$set: { name: todoItem }});
     }
-	}
+	},
 
 /*	'keydown [name=todoItem]': function(){
     console.log("You're holding down a key on your keyboard.");
@@ -58,4 +73,8 @@ Template.todoItem.events({
 	'keypress [name=todoItem]': function(){
     console.log("You just pressed one of the keys on your keyboard.");
 	}*/
+
+	'change [type=checkbox]': function(){
+    console.log("You checked or unchecked this checkbox");
+	}
 });
