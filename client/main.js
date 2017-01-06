@@ -42,17 +42,20 @@ Template.todoItem.events({
 	},
 
 	'keyup [name=todoItem]': function(event){
-    var documentId = this._id;
-    var todoItem = $(event.target).val();
-    Todos.update({ _id: documentId }, {$set: { name: todoItem }});
-    console.log("Task changed to: " + todoItem);
-  },
-  	
-	'keydown [name=todoItem]': function(){
+    if(event.which == 13 || event.which == 27){
+        console.log("You tapped the Return or Escape key");
+    } else {
+        var documentId = this._id;
+        var todoItem = $(event.target).val();
+        Todos.update({ _id: documentId }, {$set: { name: todoItem }});
+    }
+	}
+
+/*	'keydown [name=todoItem]': function(){
     console.log("You're holding down a key on your keyboard.");
 	},
 
 	'keypress [name=todoItem]': function(){
     console.log("You just pressed one of the keys on your keyboard.");
-	}
+	}*/
 });
